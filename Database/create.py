@@ -3,6 +3,7 @@ from mysql.connector import errorcode
 from config import DB_CONFIG
 from SQL.table import TABLES
 
+
 def database():
     """delete database"""
     cnx = mysql.connector.connect(**DB_CONFIG)

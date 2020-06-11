@@ -1,6 +1,7 @@
 import mysql.connector
 from config import DB_CONFIG
 
+
 class Database:
     """allows to make sql requests"""
     def __init__(self):
