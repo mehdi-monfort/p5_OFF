@@ -1,14 +1,10 @@
-#!/usr/bin/env python3
-# coding: utf-8
-
 import mysql.connector
 from mysql.connector import errorcode
-from config import *
-from constant import *
-
+from config import DB_CONFIG
+from SQL.table import TABLES
 
 def database():
-
+    """delete database"""
     cnx = mysql.connector.connect(**DB_CONFIG)
     cursor = cnx.cursor(buffered=True)
 
@@ -20,6 +16,7 @@ def database():
         exit(1)
 
     def create_database(cursor):
+        """create database"""
         try:
             cursor.execute(
                 "CREATE DATABASE {} DEFAULT CHARACTER SET 'utf8mb4'".format(
