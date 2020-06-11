@@ -1,4 +1,3 @@
-import sys
 from termcolor import colored
 from Database.create_db import database
 from SQL.sql_request import Database
