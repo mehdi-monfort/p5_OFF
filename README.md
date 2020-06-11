@@ -2,7 +2,7 @@
 
 Creation of a python application allowing to substitute one product for another thanks to the Open Food Facts database
 
-=============================================================================================================================
+===============================================================================================================
 
 **Contexte**
 
@@ -14,11 +14,11 @@ Remplacer le Nutella par une pâte aux noisettes, oui, mais laquelle ? Et dans q
 créer un programme qui interagirait avec la base Open Food Facts pour en récupérer les aliments, les comparer et proposer à 
 l'utilisateur un substitut plus sain à l'aliment qui lui fait envie.
 
-=============================================================================================================================
+===============================================================================================================
 
 **Cahier des charges**
 
------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------
 
 **Parcours utilisateur**
 
@@ -29,7 +29,7 @@ Sélection du produit (description, url, magasin (si existant)
 Sélection du substitut (description, url, magasin (si existant)
 Possibilité d'enregistrer le résultat
 
------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------
 
 **Fonctionnalités**
 
@@ -38,7 +38,7 @@ L'utilisateur interagit avec le programme dans le terminal, possibilité de dév
 Si l'utilisateur entre un caractère qui n'est pas un chiffre, le programme doit lui répéter la question.
 La recherche doit s'effectuer sur une base MySql.
 
------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------
 
 **Étapes de travail**
 
@@ -60,7 +60,7 @@ Travailler le question/Réponse
 Quels requêtes pour quelle(s) Table(s)
 Comment enregistrer les requêtes
 
-=============================================================================================================================
+===============================================================================================================
 
 **Livrable**
 
@@ -74,11 +74,11 @@ votre code source sur Github. Développez notamment le choix de l'algorithme et 
 A4. Il peut être rédigé en anglais ou en français, au choix, mais prenez bien en considération que les fautes d’orthographe et 
 de grammaire seront évaluées !
 
-=============================================================================================================================
+===============================================================================================================
 
 **Contraintes**
 
  Votre code sera écrit en anglais : variables, noms de fonctions, commentaires, documentation, ...
  Votre projet sera versionné et publié sur Github pour que votre mentor puisse laisser des commentaires.
  
-=============================================================================================================================
+===============================================================================================================
