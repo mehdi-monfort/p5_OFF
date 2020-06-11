@@ -1,0 +1,12 @@
+#!/bin/sh
+'''exec' "/home/ideo/Bureau/formation/Evaluations/5-Utilisez les données publiques de l'OpenFoodFacts/-P5-OpenFoodFacts/venv/bin/python3" "$0" "$@"
+' '''
+# -*- coding: utf-8 -*-
+import re
+import sys
+
+from pip import main
+
+if __name__ == '__main__':
+    sys.argv[0] = re.sub(r'(-script\.pyw?|\.exe)?$', '', sys.argv[0])
+    sys.exit(main())
