@@ -1,7 +1,7 @@
 from termcolor import colored
-from Database.create_db import database
-from SQL.sql_request import Database
-from Database.filling_data import Request
+from Database.create import database
+from SQL.request import Database
+from Database.filling import Fill_data
 
 
 def main():
@@ -46,7 +46,7 @@ def main():
                 )
             )
             print("Waiting, request in progress ...")
-            req = Request()
+            req = Fill_data()
             req.make_request(data)
             print(
                 colored(
