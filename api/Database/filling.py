@@ -3,7 +3,7 @@ import requests
 from config import DB_CONFIG
 
 
-class Request:
+class Fill_data:
     """filling data in the database"""
 
     def __init__(self):
@@ -15,7 +15,7 @@ class Request:
         self.nb_pages = 0
         self.nb_prod = 0
         self.nb_prod_remove = 0
-        self.nb_prod_to_keep = 0
+        self.nb_prod_to_keep = 0 
         self.url = "https://fr.openfoodfacts.org/categorie/{}/{}.json"
         self.categories = [
             "Jus et nectars",
@@ -34,7 +34,7 @@ class Request:
             print((self.categories[self.cat]), "...waiting...")
             print("------------------------------------------------------")
             self.cat += 1
-            for product in range(10):
+            for product in range(20):
                 response = requests.get(self.url.format(category, self.nb_pages))
                 resp = response.json()
                 self.nb_pages += 1
