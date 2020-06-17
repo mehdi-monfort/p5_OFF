@@ -13,25 +13,18 @@ def main():
     prod_menu = False
     cat_menu = False
     data = Database()
-
-    touch_error = colored(
-        "Attention: Pour faire une sélection. Tapez son numéro", "red"
-    )
+    green_line = colored("-------------------------------------------------", "green")
+    red_line = colored("-------------------------------------------------", "red")
+    touch_error = colored("Attention: Pour faire une sélection. Tapez son numéro", "red")
 
     while main_menu:
-        print(
-            colored("------------------------------------------------------", "green")
-        )
+        print(green_line)
         print(colored("1. Utiliser application", "yellow",))
         print(colored("2. Supression/Création de la base de données", "magenta"))
         print(colored("0. Quitter l'application ", "red"))
-        print(
-            colored("------------------------------------------------------", "green")
-        )
+        print(green_line)
         choice_main = input(colored("\n ---> ", "green"))
-        print(
-            colored("\n------------------------------------------------------", "green")
-        )
+        print(green_line)
         try:
             choice_main = int(choice_main)
         except ValueError:
@@ -40,49 +33,24 @@ def main():
             api_menu = True
         elif choice_main == 2:
             database()
-            print(
-                colored(
-                    "------------------------------------------------------", "green"
-                )
-            )
+            print(green_line)
             print("Waiting, request in progress ...")
             req = Fill_data()
             req.make_request(data)
-            print(
-                colored(
-                    "------------------------------------------------------", "green"
-                )
-            )
+            print(green_line)
             print("Request complete.")
-            print(
-                colored(
-                    "------------------------------------------------------", "green"
-                )
-            )
+            print(green_line)
         elif choice_main == 0:
             main_menu = False
         else:
             print(touch_error)
         while api_menu:
-            print(
-                colored(
-                    "------------------------------------------------------", "green"
-                )
-            )
             print(colored("1. Menu application", "yellow"))
             print(colored("2. Afficher sauvegarde", "yellow"))
             print(colored("0. Quitter le programme", "red"))
-            print(
-                colored(
-                    "------------------------------------------------------", "green"
-                )
-            )
+            print(green_line)
             choice_api = input(colored("\n ---> ", "green"))
-            print(
-                colored(
-                    "\n------------------------------------------------------", "green"
-                )
-            )
+            print(green_line)
             try:
                 choice_api = int(choice_api)
             except ValueError:
@@ -96,6 +64,7 @@ def main():
                     print(colored("*.backup is empty", "yellow"))
                 else:
                     data.display_favorite()
+                    print(green_line)
             elif choice_api == 0:
                 main_menu = False
                 api_menu = False
@@ -130,19 +99,9 @@ def main():
                 prod_menu = False
                 sub_menu = True
             else:
-                print(
-                    colored(
-                        "------------------------------------------------------",
-                        "green",
-                    )
-                )
+                print(red_line)
                 print(touch_error)
-                print(
-                    colored(
-                        "------------------------------------------------------",
-                        "green",
-                    )
-                )
+                print(red_line)
         while sub_menu:
             print(colored("Choix d'un substitut", "yellow"))
             choice_sub = input(colored("\n ---> ", "green"))
@@ -165,33 +124,13 @@ def main():
             if choice_save == 1:
                 try:
                     data.add_favorite(choice_sub,)
-                    print(
-                        colored(
-                            "------------------------------------------------------",
-                            "red",
-                        )
-                    )
-                    print(colored("Le favoris enregistrer", "green"))
-                    print(
-                        colored(
-                            "------------------------------------------------------",
-                            "red",
-                        )
-                    )
-                except:
-                    print(
-                        colored(
-                            "------------------------------------------------------",
-                            "red",
-                        )
-                    )
+                    print(red_line)
+                    print(colored("favoris enregistrer", "green"))
+                    print(red_line)
+                except Exception:
+                    print(red_line)
                     print(colored("Le favoris est déjà enregistrer", "yellow"))
-                    print(
-                        colored(
-                            "------------------------------------------------------",
-                            "red",
-                        )
-                    )
+                    print(red_line)
                 save_menu = False
             elif choice_save == 2:
                 save_menu = False
