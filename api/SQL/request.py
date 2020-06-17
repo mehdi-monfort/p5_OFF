@@ -4,14 +4,15 @@ from config import DB_CONFIG
 
 class Database:
     """allows to make sql requests"""
+
     def __init__(self):
         """allows connection with the database"""
         self.cnx = mysql.connector.connect(**DB_CONFIG)
         self.cursor = self.cnx.cursor()
 
-    #############################################################################################
-    #                                          adding data                                      #
-    #############################################################################################
+    ##########################################################################
+    #                               adding data                              #
+    ##########################################################################
 
     def add_category(self, cat_id, name):
         """add favorite in table"""
@@ -25,7 +26,10 @@ class Database:
 
     def add_product(self, barcode, name, nutriscore, url, market, cat_id):
         """add product in table"""
-        request_sql = "INSERT INTO Products(barcode, name, score, url, market, cat_id) VALUES (%s, %s, %s, %s, %s, %s)"
+        request_sql = (
+            "INSERT INTO Products(barcode, name, score, url, market, cat_id)"
+            " VALUES (%s, %s, %s, %s, %s, %s)"
+            )
         element = (
             barcode,
             name,
@@ -44,14 +48,15 @@ class Database:
         self.cursor.execute(request_sql, element)
         return self.cursor.fetchone()
 
-    #############################################################################################
-    #                                        Selecting data                                    #
-    #############################################################################################
+    ##########################################################################
+    #                             Selecting data                             #
+    ##########################################################################
 
     def search_favorite(self):
         """ display the favorites """
         search_fav = (
-            "SELECT * FROM Products JOIN Favorites ON Products.p_id = Favorites.fav_id"
+            "SELECT * FROM Products JOIN Favorites"
+            " ON Products.p_id = Favorites.fav_id"
         )
         self.cursor.execute(search_fav)
         return self.cursor.fetchall()
@@ -85,7 +90,8 @@ class Database:
     def display_better_product(self, cat_id):
         """ display the products with better nutriscore"""
         request_sql = (
-            "SELECT * FROM Products WHERE cat_id = (%s) ORDER BY score ASC LIMIT 15"
+            "SELECT * FROM Products WHERE cat_id = (%s)"
+            " ORDER BY score ASC LIMIT 15"
         )
         element = (cat_id,)
         self.cursor.execute(request_sql, element)
