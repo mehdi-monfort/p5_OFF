@@ -64,8 +64,8 @@ Comment enregistrer les requêtes
 
 **Livrable**
 
-Modèle physique de données ou Modèle relationnelle.
-Script de création de votre base de données
+Modèle physique de données ou Modèle relationnelle./n
+Script de création de votre base de données/n
 Code source publié sur Github
 Tableau Trello, Taiga ou Pivotal Tracker.
 Document texte expliquant la démarche choisie, les difficultés rencontrées et les solutions trouvées et incluant le lien vers 
