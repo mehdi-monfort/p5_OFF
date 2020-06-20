@@ -1,4 +1,4 @@
-**-P5-OpenFoodFacts**
+**P5_OFF**
 
 Creation of a python application allowing to substitute one product for another thanks to the Open Food Facts database
 
