@@ -22,21 +22,22 @@ l'utilisateur un substitut plus sain à l'aliment qui lui fait envie.
 
 **Parcours utilisateur**
 
-2 choix:  - Quel aliment souhaitez-vous remplacer ?
-          - Retrouver mes aliments substitués.
-Sélection de la catégorie
-Sélection du produit (description, url, magasin (si existant)
-Sélection du substitut (description, url, magasin (si existant)
-Possibilité d'enregistrer le résultat
+*2 choix:  - Quel aliment souhaitez-vous remplacer ?
+          - Retrouver mes aliments substitués.*
+
+*Sélection de la catégorie*
+*Sélection du produit (description, url, magasin (si existant)*
+*Sélection du substitut (description, url, magasin (si existant)*
+*Possibilité d'enregistrer le résultat*
 
 ---------------------------------------------------------------------------------------------------------------
 
 **Fonctionnalités**
 
-Recherche d'aliments dans la base Open Food Facts.
-L'utilisateur interagit avec le programme dans le terminal, possibilité de développer une interface graphique.
-Si l'utilisateur entre un caractère qui n'est pas un chiffre, le programme doit lui répéter la question.
-La recherche doit s'effectuer sur une base MySql.
+1. Recherche d'aliments dans la base Open Food Facts.
+2. L'utilisateur interagit avec le programme dans le terminal, possibilité de développer une interface graphique.
+3. Si l'utilisateur entre un caractère qui n'est pas un chiffre, le programme doit lui répéter la question.
+4. La recherche doit s'effectuer sur une base MySql.
 
 ---------------------------------------------------------------------------------------------------------------
 
@@ -64,11 +65,11 @@ Comment enregistrer les requêtes
 
 **Livrable**
 
-Modèle physique de données ou Modèle relationnelle.
-Script de création de votre base de données
-Code source publié sur Github
-Tableau Trello, Taiga ou Pivotal Tracker.
-Document texte expliquant la démarche choisie, les difficultés rencontrées et les solutions trouvées et incluant le lien vers 
+1. Modèle physique de données ou Modèle relationnelle.
+2. Script de création de votre base de données
+3. Code source publié sur Github
+4. Tableau Trello, Taiga ou Pivotal Tracker.
+5. Document texte expliquant la démarche choisie, les difficultés rencontrées et les solutions trouvées et incluant le lien vers 
 votre code source sur Github. Développez notamment le choix de l'algorithme et la méthodologie de projet choisie. Expliquez 
 également les difficultés rencontrées et les solutions trouvées. Le document doit être en format pdf et ne pas excéder 2 pages 
 A4. Il peut être rédigé en anglais ou en français, au choix, mais prenez bien en considération que les fautes d’orthographe et 
