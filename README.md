@@ -32,54 +32,54 @@ l'utilisateur un substitut plus sain à l'aliment qui lui fait envie.
 
 ---------------------------------------------------------------------------------------------------------------
 
-**Fonctionnalités**
+<h2>Fonctionnalités</h2>
 
-1. Recherche d'aliments dans la base Open Food Facts.
-2. L'utilisateur interagit avec le programme dans le terminal, possibilité de développer une interface graphique.
-3. Si l'utilisateur entre un caractère qui n'est pas un chiffre, le programme doit lui répéter la question.
-4. La recherche doit s'effectuer sur une base MySql.
+<li Recherche d aliments dans la base Open Food Facts.></li>
+<li L utilisateur interagit avec le programme dans le terminal, possibilité de développer une interface graphique.></li>
+<li Si l utilisateur entre un caractère qui n est pas un chiffre, le programme doit lui répéter la question.></li>
+<li La recherche doit s effectuer sur une base MySql.></li>
 
 ---------------------------------------------------------------------------------------------------------------
 
-**Étapes de travail**
+<h2>Étapes de travail</h2>
 
-***Organisation***
-Création du README
-Création d'un Tableau Agile
+<h3>Organisation</h3>
+<li Création du README ></li>
+<li Création dun Tableau Agile></li>
 
-***Construction de la base de donnée***
-Faire un Modèle Physique de Données
-Récupérer les données depuis la base OpenFoodFacts au format JSON
-Créer un script Python qui insérera les données dans la base
+<h3>Construction de la base de donnée</h3>
+<li Faire un Modèle Physique de Données></li>
+<li Récupérer les données depuis la base OpenFoodFacts au format JSON></li>
+<li Créer un script Python qui insérera les données dans la base></li>
 
-***Construction du programme***
-Lister les fonctionnalitées de chaque classe
-Créer l'architecture du programme
+<h3>Construction du programme</h3>
+<li Lister les fonctionnalitées de chaque classe></li>
+<li Créer l architecture du programme></li>
 
-***interaction programme-base de données***
-Travailler le question/Réponse
-Quels requêtes pour quelle(s) Table(s)
-Comment enregistrer les requêtes
-
-===============================================================================================================
-
-**Livrable**
-
-1. Modèle physique de données ou Modèle relationnelle.
-2. Script de création de votre base de données
-3. Code source publié sur Github
-4. Tableau Trello, Taiga ou Pivotal Tracker.
-5. Document texte expliquant la démarche choisie, les difficultés rencontrées et les solutions trouvées et incluant le lien vers 
-votre code source sur Github. Développez notamment le choix de l'algorithme et la méthodologie de projet choisie. Expliquez 
-également les difficultés rencontrées et les solutions trouvées. Le document doit être en format pdf et ne pas excéder 2 pages 
-A4. Il peut être rédigé en anglais ou en français, au choix, mais prenez bien en considération que les fautes d’orthographe et 
-de grammaire seront évaluées !
+<h3>Interaction programme-base de données</h3>
+<li Travailler le question/Réponse></li>
+<li Quels requêtes pour quelle(s) Table(s)></li>
+<li Comment enregistrer les requêtes></li>
 
 ===============================================================================================================
 
-**Contraintes**
+<h2>Livrable</h2>
 
- Votre code sera écrit en anglais : variables, noms de fonctions, commentaires, documentation, ...
- Votre projet sera versionné et publié sur Github pour que votre mentor puisse laisser des commentaires.
+<li Modèle physique de données ou Modèle relationnelle. ></li>
+<li Script de création de votre base de données ></li>
+<li Code source publié sur Github ></li>
+<li Tableau Trello, Taiga ou Pivotal Tracker. ></li>
+<li Document texte expliquant la démarche choisie, les difficultés rencontrées et les solutions trouvées et incluant le lien vers votre code source sur Github. ></li>
+<li Développez notamment le choix de l algorithme et la méthodologie de projet choisie. ></li>
+<li Expliquez également les difficultés rencontrées et les solutions trouvées. ></li>
+<li Le document doit être en format pdf et ne pas excéder 2 pages A4. ></li>
+<li Il peut être rédigé en anglais ou en français, au choix, mais prenez bien en considération que les fautes d’orthographe et de grammaire seront évaluées ! ></li>
+
+===============================================================================================================
+
+<h2 Contraintes** ></h2>
+
+<li Votre code sera écrit en anglais : variables, noms de fonctions, commentaires, documentation, ...></li>
+<li Votre projet sera versionné et publié sur Github pour que votre mentor puisse laisser des commentaires.></li>
  
 ===============================================================================================================
