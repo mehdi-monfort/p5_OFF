@@ -20,47 +20,56 @@ l'utilisateur un substitut plus sain à l'aliment qui lui fait envie.</p>
 
 
 <h3>Parcours utilisateur</h3>
-
-<li>2 choix:  	- Quel aliment souhaitez-vous remplacer ?
-          		- Retrouver mes aliments substitués.?
-          	</li>
+<ul>
+<li>2 choix:<br /> - Quel aliment souhaitez-vous remplacer ?<br />
+          	- Retrouver mes aliments substitués.?</li><br />
+          
 <li>Sélection de la catégorie</li>
 <li>Sélection du produit (description, url, magasin (si existant)</li>
 <li>Sélection du substitut (description, url, magasin (si existant)</li>
 <li>Possibilité d'enregistrer le résultat</li>
+</ul>
 <hr />
 
 <h3>Fonctionnalités</h3>
-
+<ul>
 <li>Recherche d aliments dans la base Open Food Facts.</li>
 <li>L utilisateur interagit avec le programme dans le terminal, possibilité de développer une interface graphique.</li>
 <li>Si l utilisateur entre un caractère qui n est pas un chiffre, le programme doit lui répéter la question.</li>
 <li>La recherche doit s effectuer sur une base MySql.</li>
+</ul>
 <hr />
 
 <h3>Étapes de travail</h3>
 
 <h4>Organisation</h4>
-<li>Création du README </li>
+<ul><li>Création du README </li>
 <li>Création dun Tableau Agile</li>
+</ul>
 
 <h4>Construction de la base de donnée</h4>
+<ul>
 <li>Faire un Modèle Physique de Données</li>
 <li>Récupérer les données depuis la base OpenFoodFacts au format JSON</li>
 <li>Créer un script Python qui insérera les données dans la base</li>
+</ul>
 
 <h4>Construction du programme</h4>
+<ul>
 <li>Lister les fonctionnalitées de chaque classe</li>
 <li>Créer l architecture du programme</li>
+</ul>
 
 <h4>Interaction programme-base de données</h4>
+<ul>
 <li>Travailler le question/Réponse</li>
 <li>Quels requêtes pour quelle(s) Table(s)</li>
 <li>Comment enregistrer les requêtes></li>
+</ul>
 <hr />
 
 <h3>Livrable</h3>
-
+<ul>
 <li>Modèle physique de données ou Modèle relationnelle.</li>
 <li>Script de création de votre base de données</li>
 <li>Code source publié sur Github</li>
@@ -70,9 +79,11 @@ l'utilisateur un substitut plus sain à l'aliment qui lui fait envie.</p>
 <li>Expliquez également les difficultés rencontrées et les solutions trouvées.</li>
 <li>Le document doit être en format pdf et ne pas excéder 2 pages A4.</li>
 <li>Il peut être rédigé en anglais ou en français, au choix, mais prenez bien en considération que les fautes d’orthographe et de grammaire seront évaluées !</li>
+</ul>
 <hr />
 
 <h3>Contraintes</h3>
-
+<ul>
 <li>Votre code sera écrit en anglais : variables, noms de fonctions, commentaires, documentation, ...</li>
 <li>Votre projet sera versionné et publié sur Github pour que votre mentor puisse laisser des commentaires.</li>
+</ul>
