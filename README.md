@@ -1,4 +1,4 @@
-**P5_OFF**
+**-P5-OpenFoodFacts**
 
 Creation of a python application allowing to substitute one product for another thanks to the Open Food Facts database
 
@@ -64,7 +64,7 @@ Comment enregistrer les requêtes
 
 **Livrable**
 
-Modèle physique de données ou Modèle relationnelle.\n
+Modèle physique de données ou Modèle relationnelle.
 Script de création de votre base de données
 Code source publié sur Github
 Tableau Trello, Taiga ou Pivotal Tracker.
