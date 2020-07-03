@@ -8,31 +8,37 @@ TABLES = {}
 
 TABLES["Categories"] = (
     "CREATE TABLE `Categories` ("
-    "   `c_id` SMALLINT NOT NULL AUTO_INCREMENT PRIMARY KEY,"
-    "   `name` VARCHAR(120)"
+    "  categorie VARCHAR(210) NOT NULL PRIMARY KEY"
     ") ENGINE=InnoDB"
 )
 
 TABLES["Products"] = (
     "CREATE TABLE `Products` ("
-    "   `p_id` SMALLINT NOT NULL AUTO_INCREMENT PRIMARY KEY,"
-    "   `cat_id` SMALLINT NOT NULL, "
-    "   `name` VARCHAR(210) NOT NULL,"
-    "   `barcode` CHAR(14) NOT NULL,"
-    "   `score` CHAR(1) NULL,"
-    "   `url` TEXT NULL,"
-    "   `market` VARCHAR(210) NULL,"
-    "  CONSTRAINT `cat_id` FOREIGN KEY (`cat_id`) "
-    "     REFERENCES `Categories` (`c_id`) ON DELETE CASCADE"
+    "  barcode VARCHAR(14) NOT NULL PRIMARY KEY,"
+    "  name VARCHAR(210) NOT NULL,"
+    "  score CHAR(1) NULL,"
+    "  url TEXT NULL,"
+    "  market VARCHAR(210) NULL"
     ") ENGINE=InnoDB"
 )
 
 TABLES["Favorites"] = (
     "CREATE TABLE `Favorites` ("
-    "   `fav_id` SMALLINT PRIMARY KEY, "
-    "  CONSTRAINT `fav_id` FOREIGN KEY (`fav_id`) "
-    "     REFERENCES `Products` (`p_id`) ON DELETE CASCADE,"
-    "  UNIQUE KEY (`fav_id`)"
+    "  fav_id VARCHAR(14) PRIMARY KEY, "
+    "  CONSTRAINT fav_id FOREIGN KEY (fav_id) "
+    "     REFERENCES Products (barcode) ON DELETE CASCADE,"
+    "  UNIQUE KEY (fav_id)"
+    ") ENGINE=InnoDB"
+)
+
+TABLES["Relations"] = (
+    "CREATE TABLE `Relations` ("
+    "  categorie VARCHAR(210) NOT NULL, "
+    "  barcode VARCHAR(14) NOT NULL,"
+    "  CONSTRAINT categorie FOREIGN KEY (categorie) "
+    "     REFERENCES Categories (categorie) ON DELETE CASCADE,"
+    "  CONSTRAINT barcode FOREIGN KEY (barcode) "
+    "     REFERENCES Products (barcode) ON DELETE CASCADE"
     ") ENGINE=InnoDB"
 )
 
