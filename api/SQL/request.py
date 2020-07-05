@@ -16,19 +16,18 @@ class Database:
 
     def add_category(self, cat_id, name):
         """add favorite in table"""
-        request_sql = "INSERT INTO Categories(c_id, name) VALUES (%s, %s)"
+        request_sql = "INSERT INTO Categories(categorie) VALUES (%s)"
         categorie = (
             cat_id,
-            name,
         )
         self.cursor.execute(request_sql, categorie)
         return self.cursor.fetchone()
 
-    def add_product(self, barcode, name, nutriscore, url, market, cat_id):
+    def add_product(self, barcode, name, nutriscore, url, market):
         """add product in table"""
         request_sql = (
-            "INSERT INTO Products(barcode, name, score, url, market, cat_id)"
-            " VALUES (%s, %s, %s, %s, %s, %s)"
+            "INSERT INTO Products(barcode, name, score, url, market)"
+            " VALUES (%s, %s, %s, %s, %s)"
             )
         element = (
             barcode,
@@ -36,7 +35,6 @@ class Database:
             nutriscore,
             url,
             market,
-            cat_id,
         )
         self.cursor.execute(request_sql, element)
         return self.cursor.fetchone()

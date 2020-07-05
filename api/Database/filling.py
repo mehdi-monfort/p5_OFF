@@ -18,10 +18,10 @@ class Fill_data:
         self.nb_prod_to_keep = 0 
         self.url = "https://fr.openfoodfacts.org/categorie/{}/{}.json"
         self.categories = [
-            "Jus et nectars",
-            "Produits fermentés",
-            "Desserts",
-            "Matières grasses",
+            "Aliments et boissons à base de végétaux",
+            "Aliments d'origine végétale",
+            "Boissons",
+            "Snacks sucrés",
             "Snacks",
         ]
 
@@ -63,7 +63,6 @@ class Fill_data:
                             (product["nutriscore"]).upper(),
                             product["url"],
                             product["market"],
-                            product["cat_id"],
                         )
                         self.nb_prod_to_keep += 1
                         self.nb_prod_remove = self.nb_prod - self.nb_prod_to_keep
