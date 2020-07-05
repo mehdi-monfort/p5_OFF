@@ -37,21 +37,23 @@ class Main:
         elif choice_main == 2:
             database()
             print("Waiting, request in progress ...")
-            for categorie in range(5):
-                category = Category.get_categories(categorie)
-                self.database.add_category(category)
+            for cat_id in range(5):
+                category = Category.get_categories()
                 print(category)
-                for i in range(19):
-                    product = Product.get_products(category, i+1)
-                    if product is not None:
-                        self.database.add_product(
-                            product["barcode"],
-                            product["name"],
-                            (product["nutriscore"]).upper(),
-                            product["url"],
-                            product["market"],
-                            )
-            self.database.add_relation()
+                self.database.add_category(category)
+                for page in range(19):
+                    for product in range(20):
+                        list_product = Product.get_products(category, page+1, product)
+                        if list_product is not None:
+                            for product in list_product:
+                                self.database.add_product(
+                                    product["barcode"],
+                                    product["name"],
+                                    (product["nutriscore"]).upper(),
+                                    product["url"],
+                                    product["market"],
+                                    )
+                                self.database.add_relation(cat_id+1, product["barcode"])
             print("Request complete.")
             self.main_menu()
         elif choice_main == 0:
@@ -133,10 +135,10 @@ class Main:
             self.save_menu(cat, sub)
         else:
             print(self.touch_error)
-            self.sub_menu()
+            self.sub_menu(cat)
 
     def save_menu(self, cat, sub):
-        self.database.display_better_products(cat)
+
         print(colored("Voulez-vous sauvegarder: 1(Oui) 2(Non)", "yellow"))
         choice_save = input(colored("\n ---> ", "green"))
         try:
@@ -162,7 +164,9 @@ class Main:
             print(colored("reessayez", "green"))
 
     def bye():
-        print(colored("Au revoir !", "blue"))
+        print(colored("************************************", "green"))
+        print(colored("             Au revoir !            ", "yellow"))
+        print(colored("************************************", "green"))
         quit()
 
 
