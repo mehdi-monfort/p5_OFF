@@ -4,19 +4,21 @@ from Database.create import database
 from SQL.database import Database
 from product import Product
 from category import Category
+import re
+
 
 def main():
 
     init = Main()
     init.main_menu()
 
-class Main:
 
+class Main:
     def __init__(self):
         """set up attributes"""
-        self.green_line = colored("---------------------------------------------", "green")
-        self.red_line = colored("---------------------------------------------", "red")
-        self.touch_error = colored("¨Pour faire une sélection. Tapez son numéro¨", "red")
+        self.green_line = colored("-----------------------------------------", "green")
+        self.red_line = colored("-----------------------------------------", "red")
+        self.touch_error = colored("Pour faire une sélection. Tapez son numéro", "red")
         self.database = Database()
         self.cat = 0
         self.sub = 0
@@ -36,24 +38,11 @@ class Main:
             self.api_menu()
         elif choice_main == 2:
             database()
-            print("Waiting, request in progress ...")
-            for cat_id in range(5):
-                category = Category.get_categories()
-                print(category)
-                self.database.add_category(category)
-                for page in range(19):
-                    for product in range(20):
-                        list_product = Product.get_products(category, page+1, product)
-                        if list_product is not None:
-                            for product in list_product:
-                                self.database.add_product(
-                                    product["barcode"],
-                                    product["name"],
-                                    (product["nutriscore"]).upper(),
-                                    product["url"],
-                                    product["market"],
-                                    )
-                                self.database.add_relation(cat_id+1, product["barcode"])
+            data = Database()
+            print(colored("Waiting, request in progress ...", "green"))
+            category = Category()
+            category.find_categories()
+            category.get_categories(data)
             print("Request complete.")
             self.main_menu()
         elif choice_main == 0:
@@ -163,10 +152,12 @@ class Main:
             print(colored("perdu", "red"))
             print(colored("reessayez", "green"))
 
-    def bye():
-        print(colored("************************************", "green"))
-        print(colored("             Au revoir !            ", "yellow"))
-        print(colored("************************************", "green"))
+    def bye(self):
+        print(colored("**********************************************", "green"))
+        print(colored("----------------------------------------------", "cyan"))
+        print(colored("                  Au revoir !                 ", "yellow"))
+        print(colored("----------------------------------------------", "cyan"))
+        print(colored("**********************************************", "green"))
         quit()
 
 
