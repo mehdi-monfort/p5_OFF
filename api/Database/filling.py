@@ -27,45 +27,58 @@ class Fill_data:
 
     def make_request(self, database):
         """Adding data to the database"""
-        for category in self.categories:
-            self.nb_pages = 1
-            database.add_category(self.cat_id, category)
-            print("------------------------------------------------------")
-            print((self.categories[self.cat]), "...waiting...")
-            print("------------------------------------------------------")
-            self.cat += 1
-            for product in range(20):
-                response = requests.get(self.url.format(category, self.nb_pages))
-                resp = response.json()
-                self.nb_pages += 1
-                for i in range(20):
-                    self.nb_prod += 1
-                    product = {
-                        "barcode": resp["products"][i].get("_id", 0),
-                        "name": resp["products"][i].get("product_name_fr", "0"),
-                        "nutriscore": resp["products"][i].get("nutrition_grades", "0"),
-                        "url": resp["products"][i].get("url", "Non renseigner"),
-                        "market": resp["products"][i].get("stores", "Non renseigner"),
-                        "cat_id": self.cat,
-                    }
-                    correct_barcode = (
-                        int(product["barcode"]) > 3000000000000
-                        and int(product["barcode"]) < 8000000000000
-                    )
-                    correct_name = (
-                        str(product["name"]) != "0" and str(product["name"]) != ""
-                    )
-                    correct_nutriscore = str(product["nutriscore"]) != "0"
-                    if correct_barcode and correct_name and correct_nutriscore:
-                        database.add_product(
+        for cat_id in range(5):
+            category = Category.get_categories()
+            print(category)
+            self.database.add_category(category)
+            for page in range(19):
+                for product in range(19):
+                    product = Product.get_products(category, page+1, product+1)
+                    if product is not None:
+                        self.database.add_product(
                             product["barcode"],
                             product["name"],
                             (product["nutriscore"]).upper(),
                             product["url"],
                             product["market"],
                         )
-                        self.nb_prod_to_keep += 1
-                        self.nb_prod_remove = self.nb_prod - self.nb_prod_to_keep
-            print("{} products collected.".format(self.nb_prod))
-            print("{} products removed.".format(self.nb_prod_remove))
-            print("{} products added.".format(self.nb_prod_to_keep))
+                        self.database.add_relation(
+                            cat_id+1, product["barcode"]
+                        )
+        print("Request complete.")
+        url = "https://fr.openfoodfacts.org/categories.json"
+        num = random.randrange(500)
+        response = requests.get(url)
+        resp = response.json()
+        categorie = (resp["tags"][num].get("name"))
+        return categorie
+
+    def get_products(category, page, product):
+        list_product = []
+        url = "https://fr.openfoodfacts.org/categorie/{}/{}.json"
+        response = requests.get(url.format(category, page))
+        resp = response.json()
+        product = {
+            "barcode": resp["products"][product].get("_id", ""),
+            "name": resp["products"][product].get("product_name_fr", ""),
+            "nutriscore": resp["products"][product].get("nutrition_grades", ""),
+            "url": resp["products"][product].get("url", "Non renseigner"),
+            "market": resp["products"][product].get("stores", "Non renseigner"),
+        }
+        products = Product(
+            product["barcode"],
+            product["name"],
+            product["nutriscore"],
+            product["url"],
+            product["market"],
+        )
+        good_code = (
+            int(product["barcode"]) > 3000000000000
+            and int(product["barcode"]) < 8000000000000
+        )
+        if product["market"] == "":
+            product["market"] = "Non renseigner"
+        good_name = product["name"] != ""
+        good_score = product["nutriscore"] != ""
+        if good_code and good_name and good_score:
+            return product
