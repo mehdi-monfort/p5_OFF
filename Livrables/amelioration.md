@@ -5,7 +5,9 @@
 	- market avec regex 
 	- pour le random, recupérer "count" dans: 
 		https://fr.openfoodfacts.org/categories/.json
-	- Calculer le nombre total de produit
+	- Calculer le nombre total de produit avec "count"
+	- découper class Request()
+	- mettre les string au même endroit
 
 
 - Difficulté:
