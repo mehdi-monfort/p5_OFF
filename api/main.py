@@ -1,7 +1,8 @@
 from termcolor import colored
 from Database.create import database
-from SQL.request import Database
-from Database.filling import Fill_data
+from SQL.database import Database
+from category import *
+from product import *
 
 
 def main():
@@ -12,16 +13,18 @@ def main():
     sub_menu = False
     prod_menu = False
     cat_menu = False
+    categorie = []
     data = Database()
     green_line = colored("-------------------------------------------------", "green")
     red_line = colored("-------------------------------------------------", "red")
-    touch_error = colored("Attention: Pour faire une sélection. Tapez son numéro", "red")
+    touch_error = colored("Pour faire une sélection. Tapez son numéro", "red")
 
     while main_menu:
         print(green_line)
         print(colored("1. Utiliser application", "yellow",))
         print(colored("2. Supression/Création de la base de données", "magenta"))
         print(colored("0. Quitter l'application ", "red"))
+        print("5. Test")
         print(green_line)
         choice_main = input(colored("\n ---> ", "green"))
         print(green_line)
@@ -35,11 +38,25 @@ def main():
             database()
             print(green_line)
             print("Waiting, request in progress ...")
-            req = Fill_data()
-            req.make_request(data)
-            print(green_line)
+            for categorie in range(5):
+                category = Category.get_categories(categorie)
+                data.add_category(category)
+                print(category)
+                for i in range(20):
+                    product = Product.get_products(category, i)
+                    if product != None:
+                        data.add_product(
+                            product["barcode"],
+                            product["name"],
+                            product["nutriscore"],
+                            product["url"],
+                            product["market"],
+                            product["categories"],
+                            )
+            data.add_relation()
             print("Request complete.")
-            print(green_line)
+
+
         elif choice_main == 0:
             main_menu = False
         else:
@@ -65,6 +82,7 @@ def main():
                 else:
                     data.display_favorite()
                     print(green_line)
+
             elif choice_api == 0:
                 main_menu = False
                 api_menu = False
