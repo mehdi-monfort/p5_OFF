@@ -21,16 +21,16 @@ class Database:
         self.cursor.execute(request_sql, categorie)
         return self.cursor.fetchone()
 
-    def add_product(self, barcode, name, nutriscore, url, market):
+    def add_product(self, nutriscore, barcode, name, url, market):
         """add product in table"""
         request_sql = """
-        INSERT IGNORE Products(barcode, name, score, url, market)
+        INSERT IGNORE Products(score, barcode, name, url, market)
         VALUES (%s, %s, %s, %s, %s)
             """
         element = (
+            nutriscore,
             barcode,
             name,
-            nutriscore,
             url,
             market,
         )
@@ -58,17 +58,6 @@ class Database:
         return self.cursor.fetchone()
 
     ###########################################################################
-    #                                delete data                              #
-    ###########################################################################
-
-    def del_category(self, cat_id):
-        """add favorite in table"""
-        request_sql = "DELETE FROM Categories WHERE cat_id = (%s)"
-        element = (cat_id,)
-        self.cursor.execute(request_sql, element)
-        return self.cursor.fetchone()
-
-    ###########################################################################
     #                              Selecting data                             #
     ###########################################################################
 
@@ -92,7 +81,7 @@ class Database:
         request_sql = """
             SELECT * FROM Products INNER JOIN Relations
             ON Relations.barcode = Products.barcode
-            WHERE cat_id = (%s)
+            WHERE cat_id = (%s) ORDER BY name ASC LIMIT 30
             """
         element = (cat_id,)
         self.cursor.execute(request_sql, element)
@@ -103,7 +92,7 @@ class Database:
         request_sql = """
             SELECT * FROM Products INNER JOIN Relations
             ON Relations.barcode = Products.barcode
-            WHERE cat_id = (%s) ORDER BY score ASC LIMIT 5
+            WHERE cat_id = (%s) ORDER BY score ASC LIMIT 15
             """
         element = (cat_id,)
         self.cursor.execute(request_sql, element)
@@ -111,45 +100,6 @@ class Database:
 
     def search_categorie(self):
         """ display the categories """
-        display_cat = "SELECT categorie FROM Categories"
+        display_cat = "SELECT * FROM Categories"
         self.cursor.execute(display_cat)
         return self.cursor.fetchall()
-
-    ###########################################################################
-    #                               Display data                              #
-    ###########################################################################
-
-    def display_better_products(self, cat_id):
-        liste = self.search_better_products(cat_id)
-        for i in range(len(liste)):
-            print(i + 1, ".\t", liste[i][0], "\t", liste[i][2])
-        nb_substitut = i + 1
-        return nb_substitut
-
-    def display_categorie(self):
-        liste = self.search_categorie()
-        for i, categorie in enumerate(liste):
-            print(i + 1, categorie)
-        return i
-
-    def display_products(self, cat_id):
-        """ display the products """
-        liste = self.search_product(cat_id)
-        for i in range(len(liste)):
-            print(i, ".\t", liste[i][0], "\t", liste[i][2])
-        return i
-
-    def save_favorite(self, cat, sub):
-        liste = self.search_better_products(cat)
-        sub -= 1
-        barcode = liste[sub][1]
-        self.add_favorite(barcode)
-
-    def display_favorite(self):
-        """ diplay the favorites """
-        liste = self.search_favorite()
-        for i in range(len(liste)):
-            print(
-                i + 1, ".\t", liste[i][:4], "\n",
-                 "..\t", "store:", liste[i][4]
-                )
