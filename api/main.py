@@ -168,16 +168,16 @@ class Main:
         try:
             cat = int(cat)
         except ValueError:
-            cat = -1
-        try:
-            if cat <= i+1:
-                self.prod_menu(cat, i)
-            else:
-                print(self.red_line)
-                print(self.touch_error)
-                print(self.red_line)
-                self.cat_menu()
-        except UnboundLocalError:
+            print(self.red_line)
+            print(self.touch_error)
+            print(self.red_line)
+            self.cat_menu()
+        if cat <= i+1:
+            self.prod_menu(cat, i)
+        else:
+            print(self.red_line)
+            print(self.touch_error)
+            print(self.red_line)
             self.cat_menu()
 
     def prod_menu(self, cat, i):
