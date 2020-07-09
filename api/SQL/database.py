@@ -103,9 +103,3 @@ class Database:
         display_cat = "SELECT * FROM Categories"
         self.cursor.execute(display_cat)
         return self.cursor.fetchall()
-
-    def save_favorite(self, cat, sub):
-        liste = self.search_better_products(cat)
-        sub -= 1
-        barcode = liste[sub][1]
-        self.add_favorite(barcode)

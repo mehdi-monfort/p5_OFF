@@ -1,7 +1,7 @@
 import mysql.connector
 from mysql.connector import errorcode
 from config import DB_CONFIG
-from SQL.table import TABLES
+from Database.table import TABLES
 
 
 def database():
@@ -10,7 +10,9 @@ def database():
     cursor = cnx.cursor(buffered=True)
 
     try:
-        cursor.execute("DROP DATABASE IF EXISTS {}".format(DB_CONFIG["database"]))
+        cursor.execute(
+            "DROP DATABASE IF EXISTS {}".format(DB_CONFIG["database"])
+            )
         print("database is deleted")
     except mysql.connector.Error as err:
         print("Failed delete database: {}".format(err))
@@ -34,7 +36,11 @@ def database():
         print("Database {} does not exists.".format(DB_CONFIG["database"]))
         if err.errno == errorcode.ER_BAD_DB_ERROR:
             create_database(cursor)
-            print("Database {} created successfully.".format(DB_CONFIG["database"]))
+            print(
+                "Database {} created successfully.".format(
+                    DB_CONFIG["database"]
+                    )
+                )
             cnx.database = DB_CONFIG["database"]
         else:
             print(err)

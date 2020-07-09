@@ -2,11 +2,11 @@ import mysql
 from termcolor import colored
 import requests
 from Database.create import database
-from SQL.database import Database
-from category import Category
-from product import Product
-from relation import Relation
-from request import Request
+from Database.database import Database
+from Class.category import Category
+from Class.product import Product
+from Class.relation import Relation
+from Class.favorite import Favorite
 
 
 def main():
@@ -55,7 +55,7 @@ class Main:
                 resp = response.json()
                 for i in range(20):
                     try:
-                        product = Product(
+                        prod = Product(
                             resp["products"][i].get("nutrition_grades", "0"),
                             resp["products"][i].get("_id", 0),
                             resp["products"][i].get("product_name_fr", "0"),
@@ -64,21 +64,21 @@ class Main:
                             )
                         n_prod += 1
                         checkers = [
-                            3 * 10 ** 12 < int(product.barcode) < 8 * 10 ** 12,
-                            str(product.name) != "0" and str(product.name) != "",
-                            str(product.nutriscore) != "0"
+                            3 * 10 ** 12 < int(prod.barcode) < 8 * 10 ** 12,
+                            str(prod.name) != "0" and str(prod.name) != "",
+                            str(prod.nutriscore) != "0"
                         ]
                         if all(checkers):
                             data.add_product(
-                                (product.nutriscore).upper(),
-                                product.barcode,
-                                product.name,
-                                product.url,
-                                product.market,
+                                (prod.nutriscore).upper(),
+                                prod.barcode,
+                                prod.name,
+                                prod.url,
+                                prod.market,
                             )
                             n_prod_keep += 1
-                            relation = Relation(category.cat_id, product.barcode)
-                            data.add_relation(relation.cat_id, relation.barcode)
+                            link = Relation(category.cat_id, prod.barcode)
+                            data.add_relation(link.cat_id, link.barcode)
                         else:
                             continue
                     except IndexError:
@@ -136,16 +136,16 @@ class Main:
             else:
                 prod = self.database.search_favorite()
                 for i, values in enumerate(prod):
-                    product = Product(
+                    favorite = Favorite(
                         prod[i][0], prod[i][1],
                         prod[i][2], prod[i][3],
                         prod[i][4],
                         )
                     print(
-                        i+1, ".\t", product.nutriscore,
-                        "\t", product.name, "\n",
-                        "..\t", product.url, "\n",
-                        "..\t", "store:", product.market, "\n",
+                        i+1, ".\t", favorite.nutriscore,
+                        "\t", favorite.name, "\n",
+                        "..\t", favorite.url, "\n",
+                        "..\t", "store:", favorite.market, "\n",
                         "......................................"
                         )
                 print(self.green_line)
@@ -196,7 +196,6 @@ class Main:
                 "\t", product.name,
                 )
             list_nb.append(i+1)
-            
         print(colored("Choix d'un produit", "yellow"))
         choice_prod = input(colored("\n ---> ", "green"))
         try:
