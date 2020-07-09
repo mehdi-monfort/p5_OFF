@@ -1,160 +1,280 @@
+import mysql
 from termcolor import colored
+import requests
 from Database.create import database
 from SQL.database import Database
-from category import *
-from product import *
+from category import Category
+from product import Product
+from relation import Relation
+from request import Request
 
 
 def main():
-    """set up attributes"""
-    main_menu = True
-    api_menu = False
-    save_menu = False
-    sub_menu = False
-    prod_menu = False
-    cat_menu = False
-    categorie = []
-    data = Database()
-    green_line = colored("-------------------------------------------------", "green")
-    red_line = colored("-------------------------------------------------", "red")
-    touch_error = colored("Pour faire une sélection. Tapez son numéro", "red")
 
-    while main_menu:
-        print(green_line)
+    init = Main()
+    init.main_menu()
+
+
+class Main:
+    """implementation of different menus"""
+    def __init__(self):
+        """set up attributes"""
+        self.green_line = colored("-----------------------------------------", "green")
+        self.red_line = colored("-----------------------------------------", "red")
+        self.touch_error = colored("Pour faire une sélection. Tapez son numéro", "red")
+        self.database = Database()
+        self.list_product = []
+        self.cat = 0
+        self.sub = 0
+
+    def create_database(self):
+        url = "https://fr.openfoodfacts.org/categorie/{}/{}.json"
+        categories = [
+            "Produits fermentés",
+            "Jus et nectars",
+            "Gelées de fruits",
+            "Matières grasses",
+            "snacks",
+        ]
+        database()
+        data = Database()
+        print(colored("Waiting, request in progress ...", "green"))
+        for cat_id, name in enumerate(categories):
+            n_prod = 0
+            n_prod_remove = 0
+            n_prod_keep = 0
+            cat_id += 1
+            category = Category(cat_id, name)
+            data = Database()
+            data.add_category(category.name)
+            print("------------------------------------------------------")
+            print(category.name, "...waiting...")
+            print("------------------------------------------------------")
+            for page in range(20):
+                response = requests.get(url.format(name, page))
+                resp = response.json()
+                for i in range(20):
+                    try:
+                        product = Product(
+                            resp["products"][i].get("nutrition_grades", "0"),
+                            resp["products"][i].get("_id", 0),
+                            resp["products"][i].get("product_name_fr", "0"),
+                            resp["products"][i].get("url", "absent"),
+                            resp["products"][i].get("stores", "absent"),
+                            )
+                        n_prod += 1
+                        checkers = [
+                            3 * 10 ** 12 < int(product.barcode) < 8 * 10 ** 12,
+                            str(product.name) != "0" and str(product.name) != "",
+                            str(product.nutriscore) != "0"
+                        ]
+                        if all(checkers):
+                            data.add_product(
+                                (product.nutriscore).upper(),
+                                product.barcode,
+                                product.name,
+                                product.url,
+                                product.market,
+                            )
+                            n_prod_keep += 1
+                            relation = Relation(category.cat_id, product.barcode)
+                            data.add_relation(relation.cat_id, relation.barcode)
+                        else:
+                            continue
+                    except IndexError:
+                        continue
+                    n_prod_ignore = n_prod - n_prod_keep
+            print(f"{n_prod} products collected.")
+            print(f"{n_prod_ignore} products ignored.")
+            print(f"{n_prod_keep} products added.")
+            print("Request complete.")
+        self.main_menu()
+
+    def main_menu(self):
+        """first menu et creation of database in second choice"""
+        print(self.green_line)
         print(colored("1. Utiliser application", "yellow",))
-        print(colored("2. Supression/Création de la base de données", "magenta"))
+        print(colored("2. Supression/Création de la database", "magenta"))
         print(colored("0. Quitter l'application ", "red"))
-        print("5. Test")
-        print(green_line)
+        print(self.green_line)
         choice_main = input(colored("\n ---> ", "green"))
-        print(green_line)
         try:
             choice_main = int(choice_main)
         except ValueError:
             choice_main = -1
         if choice_main == 1:
-            api_menu = True
+            self.api_menu()
         elif choice_main == 2:
-            database()
-            print(green_line)
-            print("Waiting, request in progress ...")
-            for categorie in range(5):
-                category = Category.get_categories(categorie)
-                data.add_category(category)
-                print(category)
-                for i in range(20):
-                    product = Product.get_products(category, i)
-                    if product != None:
-                        data.add_product(
-                            product["barcode"],
-                            product["name"],
-                            product["nutriscore"],
-                            product["url"],
-                            product["market"],
-                            product["categories"],
-                            )
-            data.add_relation()
-            print("Request complete.")
-
-
+            self.create_database()
         elif choice_main == 0:
-            main_menu = False
+            self.bye()
         else:
-            print(touch_error)
-        while api_menu:
-            print(colored("1. Menu application", "yellow"))
-            print(colored("2. Afficher sauvegarde", "yellow"))
-            print(colored("0. Quitter le programme", "red"))
-            print(green_line)
-            choice_api = input(colored("\n ---> ", "green"))
-            print(green_line)
-            try:
-                choice_api = int(choice_api)
-            except ValueError:
-                choice_api = -1
-            if choice_api == 1:
-                api_menu = False
-                cat_menu = True
-            elif choice_api == 2:
-                check = data.check_favorite()
-                if check == 0:
-                    print(colored("*.backup is empty", "yellow"))
-                else:
-                    data.display_favorite()
-                    print(green_line)
+            print(self.touch_error)
+            self.main_menu()
 
-            elif choice_api == 0:
-                main_menu = False
-                api_menu = False
+    def api_menu(self):
+        """second menu, use the application"""
+        print(self.green_line)
+        print(colored("1. Choix d'une catégorie", "yellow"))
+        print(colored("2. Afficher sauvegarde", "yellow"))
+        print(colored("0. Quitter le programme", "red"))
+        print(self.green_line)
+        choice_api = input(colored("\n ---> ", "green"))
+        print(self.green_line)
+        try:
+            choice_api = int(choice_api)
+        except ValueError:
+            choice_api = -1
+        if choice_api == 1:
+            self.cat_menu()
+        elif choice_api == 2:
+            check = self.database.check_favorite()
+            if check == 0:
+                print(colored("*.backup is empty", "yellow"))
+                print(self.green_line)
+                self.api_menu()
             else:
-                print(touch_error)
-        while cat_menu:
-            data.display_categorie()
-            print(colored("Choix de la catégorie", "yellow"))
-            choice_cat = input(colored("\n ---> ", "green"))
-            data.display_products(choice_cat)
-            try:
-                choice_cat = int(choice_cat)
-            except ValueError:
-                choice_cat = -1
-            if choice_cat >= 1 and choice_cat <= 5:
-                cat_menu = False
-                prod_menu = True
-            else:
-                print(touch_error)
-        while prod_menu:
-            print(colored("Choix d'un produit", "yellow"))
-            choice_prod = input(colored("\n ---> ", "green"))
-            try:
-                choice_prod = int(choice_prod)
-            except ValueError:
-                choice_prod = -1
-            select_prod = (choice_prod,)
-            if select_prod in data.search_prod_id(choice_cat):
-                liste = data.display_better_product(choice_cat)
-                liste_id = [liste[i][0] for i in range(len(liste))]
+                prod = self.database.search_favorite()
+                for i, values in enumerate(prod):
+                    product = Product(
+                        prod[i][0], prod[i][1],
+                        prod[i][2], prod[i][3],
+                        prod[i][4],
+                        )
+                    print(
+                        i+1, ".\t", product.nutriscore,
+                        "\t", product.name, "\n",
+                        "..\t", product.url, "\n",
+                        "..\t", "store:", product.market, "\n",
+                        "......................................"
+                        )
+                print(self.green_line)
+                self.api_menu()
+        elif choice_api == 0:
+            self.bye()
+        else:
+            print(self.touch_error)
+            self.api_menu()
 
-                prod_menu = False
-                sub_menu = True
+    def cat_menu(self):
+        """categorie's menu, choice categorie"""
+        cat = self.database.search_categorie()
+        for i, values in enumerate(cat):
+            category = Category(cat[i][0], cat[i][1])
+            print(i+1, category.name)
+        print(self.green_line)
+        print(colored("Choix de la catégorie", "yellow"))
+        cat = input(colored("\n ---> ", "green"))
+        try:
+            cat = int(cat)
+        except ValueError:
+            cat = -1
+        try:
+            if cat <= i+1:
+                self.prod_menu(cat, i)
             else:
-                print(red_line)
-                print(touch_error)
-                print(red_line)
-        while sub_menu:
-            print(colored("Choix d'un substitut", "yellow"))
-            choice_sub = input(colored("\n ---> ", "green"))
+                print(self.red_line)
+                print(self.touch_error)
+                print(self.red_line)
+                self.cat_menu()
+        except UnboundLocalError:
+            self.cat_menu()
+
+    def prod_menu(self, cat, i):
+        """product menu, product choice"""
+        list_nb = []
+        prod = self.database.search_product(cat)
+        for i, values in enumerate(prod):
+            product = Product(
+                prod[i][0], prod[i][1],
+                prod[i][2], prod[i][3],
+                prod[i][4],
+                )
+            print(
+                i+1, ".\t",
+                product.nutriscore,
+                "\t", product.name,
+                )
+            list_nb.append(i+1)
+            
+        print(colored("Choix d'un produit", "yellow"))
+        choice_prod = input(colored("\n ---> ", "green"))
+        try:
+            choice_prod = int(choice_prod)
+        except ValueError:
+            choice_prod != list_nb
+        if choice_prod in list_nb:
+            self.sub_menu(cat)
+        else:
+            print(self.red_line)
+            print(self.touch_error)
+            print(self.red_line)
+            self.prod_menu(cat, i)
+
+    def sub_menu(self, cat):
+        """substitute menu, substitute choice"""
+        list_nb = []
+        subst = self.database.search_better_products(cat)
+        for i, values in enumerate(subst):
+            product = Product(
+                subst[i][0], subst[i][1],
+                subst[i][2], subst[i][3],
+                subst[i][4],
+                )
+            print(
+                i+1, ".\t",
+                product.nutriscore,
+                "\t", product.name,
+                )
+            list_nb.append(i+1)
+        print(colored("Choix d'un substitut", "yellow"))
+        sub = input(colored("\n ---> ", "green"))
+        try:
+            sub = int(sub)
+        except ValueError:
+            sub != list_nb
+        if sub in list_nb:
+            self.save_menu(cat, sub)
+        else:
+            print(self.touch_error)
+            self.sub_menu(cat)
+
+    def save_menu(self, cat, sub):
+        """save menu, Adding substitute in the database"""
+        print(colored("Voulez-vous sauvegarder: 1(Oui) 2(Non)", "yellow"))
+        choice_save = input(colored("\n ---> ", "green"))
+        try:
+            choice_save = int(choice_save)
+        except ValueError:
+            choice_save = -1
+        if choice_save == 1:
             try:
-                choice_sub = int(choice_sub)
-            except ValueError:
-                choice_sub = -1
-            if choice_sub in liste_id:
-                sub_menu = False
-                save_menu = True
-            else:
-                print(touch_error)
-        while save_menu:
-            print(colored("Voulez-vous sauvegarder: 1(Oui) 2(Non)", "yellow"))
-            choice_save = input(colored("\n ---> ", "green"))
-            try:
-                choice_save = int(choice_save)
-            except ValueError:
-                choice_save = -1
-            if choice_save == 1:
-                try:
-                    data.add_favorite(choice_sub,)
-                    print(red_line)
-                    print(colored("favoris enregistrer", "green"))
-                    print(red_line)
-                except Exception:
-                    print(red_line)
-                    print(colored("Le favoris est déjà enregistrer", "yellow"))
-                    print(red_line)
-                save_menu = False
-            elif choice_save == 2:
-                save_menu = False
-            else:
-                print(colored("perdu", "red"))
-                print(colored("reessayez", "green"))
+                self.database.save_favorite(cat, sub)
+                print(self.red_line)
+                print(colored("favoris enregistrer", "green"))
+                print(self.red_line)
+                self.main_menu()
+            except mysql.connector.errors.IntegrityError:
+                print(self.red_line)
+                print(colored("Le favoris est déjà enregistrer", "yellow"))
+                print(self.red_line)
+                self.main_menu()
+        elif choice_save == 2:
+            self.main_menu()
+        else:
+            print(self.red_line)
+            print(self.touch_error)
+            print(self.red_line)
+            self.save_menu(cat, sub)
+
+    def bye(self):
+        """say goodbye"""
+        print(colored("**********************************************", "green"))
+        print(colored("----------------------------------------------", "cyan"))
+        print(colored("                  Au revoir !                 ", "yellow"))
+        print(colored("----------------------------------------------", "cyan"))
+        print(colored("**********************************************", "green"))
+        quit()
 
 
 if __name__ == "__main__":
