@@ -3,6 +3,7 @@ from termcolor import colored
 import requests
 from Database.create import database
 from Database.database import Database
+from Database.request import Request
 from Class.category import Category
 from Class.product import Product
 from Class.relation import Relation
@@ -27,69 +28,6 @@ class Main:
         self.cat = 0
         self.sub = 0
 
-    def create_database(self):
-        url = "https://fr.openfoodfacts.org/categorie/{}/{}.json"
-        categories = [
-            "Produits fermentés",
-            "Jus et nectars",
-            "Gelées de fruits",
-            "Matières grasses",
-            "snacks",
-        ]
-        database()
-        data = Database()
-        print(colored("Waiting, request in progress ...", "green"))
-        for cat_id, name in enumerate(categories):
-            n_prod = 0
-            n_prod_remove = 0
-            n_prod_keep = 0
-            cat_id += 1
-            category = Category(cat_id, name)
-            data = Database()
-            data.add_category(category.name)
-            print("------------------------------------------------------")
-            print(category.name, "...waiting...")
-            print("------------------------------------------------------")
-            for page in range(20):
-                response = requests.get(url.format(name, page))
-                resp = response.json()
-                for i in range(20):
-                    try:
-                        prod = Product(
-                            resp["products"][i].get("nutrition_grades", "0"),
-                            resp["products"][i].get("_id", 0),
-                            resp["products"][i].get("product_name_fr", "0"),
-                            resp["products"][i].get("url", "absent"),
-                            resp["products"][i].get("stores", "absent"),
-                            )
-                        n_prod += 1
-                        checkers = [
-                            3 * 10 ** 12 < int(prod.barcode) < 8 * 10 ** 12,
-                            str(prod.name) != "0" and str(prod.name) != "",
-                            str(prod.nutriscore) != "0"
-                        ]
-                        if all(checkers):
-                            data.add_product(
-                                (prod.nutriscore).upper(),
-                                prod.barcode,
-                                prod.name,
-                                prod.url,
-                                prod.market,
-                            )
-                            n_prod_keep += 1
-                            link = Relation(category.cat_id, prod.barcode)
-                            data.add_relation(link.cat_id, link.barcode)
-                        else:
-                            continue
-                    except IndexError:
-                        continue
-                    n_prod_ignore = n_prod - n_prod_keep
-            print(f"{n_prod} products collected.")
-            print(f"{n_prod_ignore} products ignored.")
-            print(f"{n_prod_keep} products added.")
-            print("Request complete.")
-        self.main_menu()
-
     def main_menu(self):
         """first menu et creation of database in second choice"""
         print(self.green_line)
@@ -105,7 +43,11 @@ class Main:
         if choice_main == 1:
             self.api_menu()
         elif choice_main == 2:
-            self.create_database()
+            database()
+            data = Database()
+            request = Request()
+            request.create_database(data)
+            self.main_menu()
         elif choice_main == 0:
             self.bye()
         else:
