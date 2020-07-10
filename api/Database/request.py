@@ -5,18 +5,23 @@ from Class.relation import Relation
 
 
 class Request():
-
-   def create_database(self, database):
-        url = "https://world.openfoodfacts.org/cgi/search.pl?search_terms={}&search_simple=1&page_size=500&action=process&json=1"
-        categories = [
+    """class allowing queries with the Open Food Facts API,
+    sorting and adding data to the database"""
+    def __init__(self):
+        """builder Request: url and categories"""
+        self.url = "https://world.openfoodfacts.org/cgi/search.pl?search_terms={}&search_simple=1&page_size=500&action=process&json=1"
+        self.categories = [
             "Produits fermentés",
             "Jus et nectars",
             "Gelées de fruits",
             "Matières grasses",
             "snacks",
         ]
+
+    def create_database(self, database):
+        """queries, sorting and adding"""
         print("Waiting, request in progress ...")
-        for cat_id, name in enumerate(categories):
+        for cat_id, name in enumerate(self.categories):
             n_prod = 0
             n_prod_remove = 0
             n_prod_keep = 0
@@ -26,7 +31,7 @@ class Request():
             print("------------------------------------------------------")
             print(category.name, "...waiting...")
             print("------------------------------------------------------")
-            response = requests.get(url.format(name))
+            response = requests.get(self.url.format(name))
             resp = response.json()
             for i in range(500):
                 try:
