@@ -1,12 +1,10 @@
 import mysql
 from termcolor import colored
-import requests
 from Database.create import database
 from Database.database import Database
 from Database.request import Request
 from Class.category import Category
 from Class.product import Product
-from Class.relation import Relation
 from Class.favorite import Favorite
 
 
@@ -18,6 +16,7 @@ def main():
 
 class Main:
     """implementation of different menus"""
+
     def __init__(self):
         """set up attributes"""
         self.green_line = colored("-----------------------------------------", "green")
@@ -79,17 +78,24 @@ class Main:
                 prod = self.database.search_favorite()
                 for i, values in enumerate(prod):
                     favorite = Favorite(
-                        prod[i][0], prod[i][1],
-                        prod[i][2], prod[i][3],
-                        prod[i][4],
-                        )
+                        prod[i][0], prod[i][1], prod[i][2], prod[i][3], prod[i][4],
+                    )
                     print(
-                        i+1, ".\t", favorite.nutriscore,
-                        "\t", favorite.name, "\n",
-                        "..\t", favorite.url, "\n",
-                        "..\t", "store:", favorite.market, "\n",
-                        "......................................"
-                        )
+                        i + 1,
+                        ".\t",
+                        favorite.nutriscore,
+                        "\t",
+                        favorite.name,
+                        "\n",
+                        "..\t",
+                        favorite.url,
+                        "\n",
+                        "..\t",
+                        "store:",
+                        favorite.market,
+                        "\n",
+                        "......................................",
+                    )
                 print(self.green_line)
                 self.api_menu()
         elif choice_api == 0:
@@ -103,7 +109,7 @@ class Main:
         cat = self.database.search_categorie()
         for i, values in enumerate(cat):
             category = Category(cat[i][0], cat[i][1])
-            print(i+1, category.name)
+            print(i + 1, category.name)
         print(self.green_line)
         print(colored("Choix de la catégorie", "yellow"))
         cat = input(colored("\n ---> ", "green"))
@@ -114,7 +120,7 @@ class Main:
             print(self.touch_error)
             print(self.red_line)
             self.cat_menu()
-        if cat <= i+1:
+        if cat <= i + 1:
             self.prod_menu(cat, i)
         else:
             print(self.red_line)
@@ -128,16 +134,12 @@ class Main:
         prod = self.database.search_product(cat)
         for i, values in enumerate(prod):
             product = Product(
-                prod[i][0], prod[i][1],
-                prod[i][2], prod[i][3],
-                prod[i][4],
-                )
+                prod[i][0], prod[i][1], prod[i][2], prod[i][3], prod[i][4],
+            )
             print(
-                i+1, ".\t",
-                product.nutriscore,
-                "\t", product.name,
-                )
-            list_nb.append(i+1)
+                i + 1, ".\t", product.nutriscore, "\t", product.name,
+            )
+            list_nb.append(i + 1)
         print(colored("Choix d'un produit", "yellow"))
         choice_prod = input(colored("\n ---> ", "green"))
         try:
@@ -158,16 +160,12 @@ class Main:
         subst = self.database.search_better_products(cat)
         for i, values in enumerate(subst):
             product = Product(
-                subst[i][0], subst[i][1],
-                subst[i][2], subst[i][3],
-                subst[i][4],
-                )
+                subst[i][0], subst[i][1], subst[i][2], subst[i][3], subst[i][4],
+            )
             print(
-                i+1, ".\t",
-                product.nutriscore,
-                "\t", product.name,
-                )
-            list_nb.append(i+1)
+                i + 1, ".\t", product.nutriscore, "\t", product.name,
+            )
+            list_nb.append(i + 1)
         print(colored("Choix d'un substitut", "yellow"))
         sub = input(colored("\n ---> ", "green"))
         try:

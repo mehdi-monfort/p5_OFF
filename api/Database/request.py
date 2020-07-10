@@ -4,9 +4,10 @@ from Class.product import Product
 from Class.relation import Relation
 
 
-class Request():
+class Request:
     """class allowing queries with the Open Food Facts API,
     sorting and adding data to the database"""
+
     def __init__(self):
         """builder Request: url and categories"""
         self.url = "https://world.openfoodfacts.org/cgi/search.pl?search_terms={}&search_simple=1&page_size=500&action=process&json=1"
@@ -41,12 +42,12 @@ class Request():
                         resp["products"][i].get("product_name_fr", "0"),
                         resp["products"][i].get("url", "absent"),
                         resp["products"][i].get("stores", "absent"),
-                        )
+                    )
                     n_prod += 1
                     checkers = [
                         3 * 10 ** 12 < int(prod.barcode) < 8 * 10 ** 12,
                         str(prod.name) != "0" and str(prod.name) != "",
-                        str(prod.nutriscore) != "0"
+                        str(prod.nutriscore) != "0",
                     ]
                     if all(checkers):
                         database.add_product(
