@@ -6,16 +6,16 @@ Création d'une application python permettant de substituer un produit à un aut
 ***Utilisation du dossier***
 
 	Dans /api, à l'aide de virtualenv: Créer un environnement virtuel
-	*linux, mac: virtualenv -p python3 env*
-	*windows(powershell): virtualenv -p $env:python3 env*
+	*linux, mac: virtualenv -p python3 env
+	*windows(powershell): virtualenv -p $env:python3 env
 	Activer l'environnement virtuel :
-	*linux, mac: source env/bin/activate*
+	*linux, mac: source env/bin/activate
 	*windows(powershell): ./env/scripts/activate.ps1*
 	cloner le projet depuis https://github.com/mehdi-monfort/p5_OFF
 	Installer le requirement.txt :
-	*pip install -r requirements.txt*
+	*pip install -r requirements.txt
 	Ouvrir le fichier avec python:
-	*python3 main.py*
+	*python3 main.py
 	L'utilisateur peut modifier le fichier config pour entrer l'identifiant et le mot de passe de la base de données.
 
 
