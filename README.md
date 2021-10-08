@@ -10,7 +10,7 @@ Création d'une application python permettant de substituer un produit à un aut
 	*windows(powershell): virtualenv -p $env:python3 env
 	Activer l'environnement virtuel :
 	*linux, mac: source env/bin/activate
-	*windows(powershell): ./env/scripts/activate.ps1*
+	*windows(powershell): ./env/scripts/activate.ps1
 	cloner le projet depuis https://github.com/mehdi-monfort/p5_OFF
 	Installer le requirement.txt :
 	*pip install -r requirements.txt
