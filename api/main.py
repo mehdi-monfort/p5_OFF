@@ -70,7 +70,7 @@ class Main:
             self.cat_menu()
         elif choice_api == 2:
             check = self.database.check_favorite()
-            if check == 0:
+            if check is None:
                 print(colored("*.backup is empty", "yellow"))
                 print(self.green_line)
                 self.api_menu()
