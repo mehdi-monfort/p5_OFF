@@ -72,9 +72,9 @@ class Database:
 
     def check_favorite(self):
         """check if favorite table is empty"""
-        check_fav = "SELECT COUNT(*) FROM Favorites"
+        check_fav = "SELECT * FROM Favorites"
         self.cursor.execute(check_fav)
-        return self.cursor.fetchone()[0]
+        return self.cursor.fetchall()
 
     def search_product(self, cat_id):
         """ display the products """
