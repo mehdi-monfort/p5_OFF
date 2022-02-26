@@ -24,7 +24,6 @@ class Request:
         print("Waiting, request in progress ...")
         for cat_id, name in enumerate(self.categories):
             n_prod = 0
-            n_prod_remove = 0
             n_prod_keep = 0
             cat_id += 1
             category = Category(cat_id, name)
@@ -37,17 +36,17 @@ class Request:
             for i in range(500):
                 try:
                     prod = Product(
-                        resp["products"][i].get("nutrition_grades", "0"),
+                        resp["products"][i].get("nutrition_grades"),
                         resp["products"][i].get("_id", 0),
-                        resp["products"][i].get("product_name_fr", "0"),
+                        resp["products"][i].get("product_name_fr"),
                         resp["products"][i].get("url", "absent"),
                         resp["products"][i].get("stores", "absent"),
                     )
                     n_prod += 1
                     checkers = [
                         3 * 10 ** 12 < int(prod.barcode) < 8 * 10 ** 12,
-                        str(prod.name) != "0" and str(prod.name) != "",
-                        str(prod.nutriscore) != "0",
+                        isinstance(prod.name, str) and str(prod.name) != "",
+                        isinstance(prod.nutriscore, str),
                     ]
                     if all(checkers):
                         database.add_product(
@@ -64,7 +63,7 @@ class Request:
                         continue
                 except IndexError:
                     continue
-                n_prod_ignore = n_prod - n_prod_keep
+            n_prod_ignore = n_prod - n_prod_keep
             print(f"{n_prod} products collected.")
             print(f"{n_prod_ignore} products ignored.")
             print(f"{n_prod_keep} products added.")
